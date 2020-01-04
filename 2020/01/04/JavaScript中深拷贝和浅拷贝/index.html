@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JavaScript中深拷贝和浅拷贝 - Gggakki</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="gggakki,"> 
+    <meta name="description" content="JavaScript中深拷贝和浅拷贝的实现相关知识点1.javascript变量包含两种不同数据类型的值：基本类型和引用类型。基本类型值指的是简单的数据段，包括es6里面新增的一共是有6种，具体如下,"> 
+    
+    <link rel="alternative" href="atom.xml" title="Gggakki" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Gggakki</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">JavaScript中深拷贝和浅拷贝</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">JavaScript中深拷贝和浅拷贝</h1>
+        <div class="stuff">
+            <span>一月 04, 2020</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h1 id="JavaScript中深拷贝和浅拷贝的实现"><a href="#JavaScript中深拷贝和浅拷贝的实现" class="headerlink" title="JavaScript中深拷贝和浅拷贝的实现"></a>JavaScript中深拷贝和浅拷贝的实现</h1><h1 id="相关知识点"><a href="#相关知识点" class="headerlink" title="相关知识点"></a>相关知识点</h1><h2 id="1-javascript变量包含两种不同数据类型的值：基本类型和引用类型。"><a href="#1-javascript变量包含两种不同数据类型的值：基本类型和引用类型。" class="headerlink" title="1.javascript变量包含两种不同数据类型的值：基本类型和引用类型。"></a>1.javascript变量包含两种不同数据类型的值：基本类型和引用类型。</h2><p>基本类型值指的是简单的数据段，包括es6里面新增的一共是有6种，具体如下：<strong>number、string、boolean、null、undefined、symbol**</strong>。**</p>
+<p>引用类型值指那些可能由多个值构成的对象，只有一种如下：<strong>object</strong>。<br>在将一个值赋给变量时，解析器必须确定这个值是基本类型值还是引用类型值。</p>
+<h2 id="2-JavaScript的变量的存储方式：栈（stack）和堆（heap）。"><a href="#2-JavaScript的变量的存储方式：栈（stack）和堆（heap）。" class="headerlink" title="2.JavaScript的变量的存储方式：栈（stack）和堆（heap）。"></a>2.JavaScript的变量的存储方式：栈（stack）和堆（heap）。</h2><ul>
+<li><strong>栈：自动分配内存空间，系统自动释放，里面存放的是基本类型的值和引用类型的地址</strong></li>
+</ul>
+<ul>
+<li><strong>堆：动态分配的内存，大小不定，也不会自动释放。里面存放引用类型的值。</strong></li>
+</ul>
+<p>基本数据类型是按值访问的，因为可以操作保存在变量中的实际的值。<br>引用类型的值是保存在内存中的对象。JavaScript 不允许直接访问内存中的位置，也就是说不能直接操作对象的内存空间。 在操作对象时， 实际上是在操作对象的引用而不是实际的对象。</p>
+<p><strong>基本类型与引用类型最大的区别实际就是 传值与传址 的区别</strong><br>值传递：基本类型采用的是值传递。<br>地址传递：引用类型则是地址传递，将存放在栈内存中的地址赋值给接收的变量。</p>
+<h1 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h1><p><code>被复制对象的所有变量都含有与原来的对象相同的值，而所有的对其他对象的引用仍然指向原来的对象。即对象的浅拷贝会对“主”对象进行拷贝，但不会复制主对象里面的对象。”里面的对象“会在原来的对象和它的副本之间共享。</code></p>
+<ul>
+<li><strong>基本数据类型Number(赋值操作)</strong></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">let</span> b=a;</span><br><span class="line">b           <span class="comment">//1</span></span><br><span class="line">b=<span class="number">2</span>;</span><br><span class="line">b          <span class="comment">//2</span></span><br><span class="line">a          <span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>数组</strong></li>
+</ul>
+<p>**</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = arr1;</span><br><span class="line">arr2         <span class="comment">//[1,2,3]</span></span><br><span class="line">arr2.push(<span class="number">4</span>);</span><br><span class="line">arr2         <span class="comment">//[1,2,3,4]</span></span><br><span class="line">arr1         <span class="comment">//[1,2,3,4]</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/714322/1577959892369-8e81febb-1a96-476b-ab1e-a764761b8b8b.png#align=left&display=inline&height=219&originHeight=219&originWidth=272&size=0&status=done&style=none&width=272" alt=""></p>
+<p>首先栈内存arr1会指向堆内存里的数组，栈内存的arr1保存的是数组的引用，也就相当于内存地址，arr2=arr1,会把arr1的引用赋给arr2，所以arr2也有了数组的引用，此时arr1和arr2指向的是同一个数组，因此一个数组的改变会影响另一个数组的值。</p>
+<ul>
+<li><strong>对象</strong></li>
+</ul>
+<p>**</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1=&#123;<span class="attr">count</span>:<span class="number">1</span>,<span class="attr">name</span>:<span class="string">'grace'</span>,<span class="attr">age</span>:<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> obj2 = obj1;</span><br><span class="line">obj2        <span class="comment">//&#123;count:1,name:'grace',age:1&#125;</span></span><br><span class="line">obj2.count=<span class="number">2</span>;</span><br><span class="line">obj1        <span class="comment">//&#123;count:2,name:'grace',age:1&#125;</span></span><br><span class="line">obj2        <span class="comment">//&#123;count:2,name:'grace',age:1&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>综上所述，如果是基本数据类型，直接进行赋值操作，这样就相当于在栈内存中重新开辟了一个新的空间把值传递过去；如果是引用类型的值传递，进行的就是浅拷贝，浅拷贝赋值的只是对象的引用，如上述obj2=obj1，实际上传递的只是obj1的内存地址，所以obj2和obj1指向的是同一个内存地址，所以这个内存地址中值的改变对obj1和obj2都有影响。</p>
+<h1 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h1><p><code>深拷贝不仅将原对象的各个属性逐个复制出去，而且将原对象各个属性所包含的对象也依次采用深复制的方法递归复制到新对象上,所以对一个对象的修改并不会影响另一个对象。</code></p>
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><h4 id="1-for循环"><a href="#1-for循环" class="headerlink" title="1.for循环"></a>1.for循环</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = copyArr(arr1);</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">copyArr</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> res=[];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>,length=arr.length;i&lt;length;i++)&#123;</span><br><span class="line">        res.push(arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-slice"><a href="#2-slice" class="headerlink" title="2.slice"></a>2.slice</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = arr1.slice(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-扩展运算符"><a href="#3-扩展运算符" class="headerlink" title="3.扩展运算符"></a>3.扩展运算符</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> [...arr2] = arr1;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-Array-from"><a href="#4-Array-from" class="headerlink" title="4.Array.from"></a>4.Array.from</h4><p>如果参数是一个真正的数组，Array.from会返回一个一模一样的新数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = <span class="built_in">Array</span>.from(arr1);</span><br></pre></td></tr></table></figure>
+
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>**</p>
+<h4 id="1-for循环-1"><a href="#1-for循环-1" class="headerlink" title="1.for循环"></a>1.for循环</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1=&#123;<span class="attr">count</span>:<span class="number">1</span>,<span class="attr">name</span>:<span class="string">'grace'</span>,<span class="attr">age</span>:<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> obj2 = copyObj(obj)&#123;</span><br><span class="line"><span class="keyword">let</span> res = &#123;&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> obj)&#123;</span><br><span class="line">  res[key]=obj[key];</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-利用json"><a href="#2-利用json" class="headerlink" title="2.利用json"></a>2.利用json</h4><p>使用JSON.stringify和JSON.parse实现深拷贝：JSON.stringify把对象转成字符串，再用JSON.parse把字符串转成新的对象；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepCopy</span>(<span class="params">obj1</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> _obj = <span class="built_in">JSON</span>.stringify(obj1);</span><br><span class="line">    <span class="keyword">let</span> obj2 = <span class="built_in">JSON</span>.parse(_obj);</span><br><span class="line">    <span class="keyword">return</span> obj2;</span><br><span class="line">  &#125;</span><br><span class="line">    <span class="keyword">var</span> a = [<span class="number">1</span>, [<span class="number">1</span>, <span class="number">2</span>], <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line">    <span class="keyword">var</span> b = deepCopy(a);</span><br><span class="line">    b[<span class="number">1</span>][<span class="number">0</span>] = <span class="number">2</span>;</span><br><span class="line">    alert(a); <span class="comment">// 1,1,2,3,4</span></span><br><span class="line">    alert(b); <span class="comment">// 2,2,2,3,4</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-lodash"><a href="#3-lodash" class="headerlink" title="3.lodash"></a>3.lodash</h4><p>热门的函数库lodash，也有提供_.cloneDeep用来做深拷贝；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> _ = <span class="built_in">require</span>(<span class="string">'lodash'</span>);</span><br><span class="line"><span class="keyword">var</span> obj1 = &#123;</span><br><span class="line">    a: <span class="number">1</span>,</span><br><span class="line">    b: &#123; <span class="attr">f</span>: &#123; <span class="attr">g</span>: <span class="number">1</span> &#125; &#125;,</span><br><span class="line">    c: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> obj2 = _.cloneDeep(obj1);</span><br><span class="line"><span class="built_in">console</span>.log(obj1.b.f === obj2.b.f);</span><br><span class="line"><span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-递归实现深拷贝"><a href="#4-递归实现深拷贝" class="headerlink" title="4.递归实现深拷贝"></a>4.递归实现深拷贝</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepCopy</span>(<span class="params">obj1</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> obj2 = <span class="built_in">Array</span>.isArray(obj1) ? [] : &#123;&#125;;</span><br><span class="line">      <span class="keyword">if</span> (obj1 &amp;&amp; <span class="keyword">typeof</span> obj1 === <span class="string">"object"</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> i <span class="keyword">in</span> obj1) &#123;</span><br><span class="line">          <span class="keyword">if</span> (obj1.hasOwnProperty(i)) &#123;</span><br><span class="line">            <span class="comment">// 如果子属性为引用数据类型，递归复制</span></span><br><span class="line">            <span class="keyword">if</span> (obj1[i] &amp;&amp; <span class="keyword">typeof</span> obj1[i] === <span class="string">"object"</span>) &#123;</span><br><span class="line">              obj2[i] = deepCopy(obj1[i]);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              <span class="comment">// 如果是基本数据类型，只是简单的复制</span></span><br><span class="line">              obj2[i] = obj1[i];</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> obj2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> obj1 = &#123;</span><br><span class="line">      a: <span class="number">1</span>,</span><br><span class="line">      b: <span class="number">2</span>,</span><br><span class="line">      c: &#123;</span><br><span class="line">        d: <span class="number">3</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> obj2 = deepCopy(obj1);</span><br><span class="line">    obj2.a = <span class="number">3</span>;</span><br><span class="line">    obj2.c.d = <span class="number">4</span>;</span><br><span class="line">    alert(obj1.a); <span class="comment">// 1</span></span><br><span class="line">    alert(obj2.a); <span class="comment">// 3</span></span><br><span class="line">    alert(obj1.c.d); <span class="comment">// 3</span></span><br><span class="line">    alert(obj2.c.d); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-手动实现深拷贝"><a href="#5-手动实现深拷贝" class="headerlink" title="5.手动实现深拷贝"></a>5.手动实现深拷贝</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1 = &#123;</span><br><span class="line">   a: &#123;</span><br><span class="line">     b: <span class="number">2</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> obj2 = &#123;</span><br><span class="line">   a: obj1.a</span><br><span class="line">&#125;</span><br><span class="line">obj2.a.b = <span class="number">3</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj1.a.b); <span class="comment">// 3</span></span><br><span class="line"><span class="built_in">console</span>.log(obj2.a.b); <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="深拷贝和浅拷贝简单解释"><a href="#深拷贝和浅拷贝简单解释" class="headerlink" title="深拷贝和浅拷贝简单解释"></a>深拷贝和浅拷贝简单解释</h2><pre><code>浅拷贝和深拷贝都只针对于引用数据类型，浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存；但深拷贝会另外创造一个一模一样的对象，新对象跟原对象不共享内存，修改新对象不会改到原对象；
+区别：浅拷贝只复制对象的第一层属性、深拷贝可以对对象的属性进行递归复制；</code></pre>
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r='https://github.com/gggakki/gggakki.github.io.git'
+        data-o='gggakki'
+        data-a='gggakki'
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
